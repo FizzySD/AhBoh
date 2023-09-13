@@ -3,7 +3,7 @@ import java.sql.*;
 public class DatabaseHadler 
 {
     public static DatabaseHadler instance = null; 
-    static final String DB_URL = "jdbc:mysql://localhost/aottg_maps";
+    static final String DB_URL =g "jdbc:mysql://localhost/aottg_maps";
     static final String USER = "root";
     static final String PASS = "";
     public Statement stmt;
@@ -22,7 +22,7 @@ public class DatabaseHadler
         {
         this.stmt = stmt;
         System.out.println("DB connesso");
-        ExecuteQuery("SELECT MapName FROM maps WHERE ID = 1");
+        ExecuteQuery("SELECT MapName FROM maps WHERE ID = 2");
         }catch (SQLException e)
         {
         e.printStackTrace();
