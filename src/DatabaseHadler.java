@@ -3,7 +3,7 @@ import java.sql.*;
 public class DatabaseHadler 
 {
     public static DatabaseHadler instance = null; 
-    static final String DB_URL =g "jdbc:mysql://localhost/aottg_maps";
+    static final String DB_URL = "jdbc:mysql://localhost/aottg_maps";
     static final String USER = "root";
     static final String PASS = "";
     public Statement stmt;
