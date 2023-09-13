@@ -22,7 +22,7 @@ public class DatabaseHadler
         {
         this.stmt = stmt;
         System.out.println("DB connesso");
-        ExecuteQuery("SELECT MapName FROM maps WHERE ID = 2");
+        ExecuteQuery("SELECT MapName FROM maps WHERE ID = 1");
         }catch (SQLException e)
         {
         e.printStackTrace();
