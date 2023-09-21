@@ -1,3 +1,4 @@
+import java.security.PublicKey;
 import java.util.Scanner;
 
 public class InputHandler 
@@ -15,16 +16,21 @@ public class InputHandler
 
     //Metodo generico per ottenere gli input
 
-    
-    public <T> T GetInput(InputType inputType) {
-        switch (inputType) {
+
+    public <T> T GetInput(InputType inputType) 
+    {
+        switch (inputType) 
+        {
             case Number:
+                    System.out.print("Inserisci un numero: ");
                     return (T) Integer.valueOf(inputScanner.nextInt());
             case Object:
-                    return (T) inputScanner.nextLine();     
+                     System.out.print("Inserisci un testo: ");
+                    return (T) inputScanner.next();     
             default:
                 return null;
         }
     }
+
     //#endregion
 }
