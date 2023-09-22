@@ -1,5 +1,4 @@
 enum InputType {
     Number,
-    Object,
-    Quantity
+    Object
 }

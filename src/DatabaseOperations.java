@@ -1,26 +1,34 @@
-public class DatabaseOperations extends DatabaseHandler
-{
-    public DatabaseOperations()
-    {
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class DatabaseOperations extends DatabaseHandler {
+    public DatabaseOperations() {
         super();
     }
-    public void SelectFromTable() {
-        // Check if a database is selected
+
+    public ResultSet SelectFromTable() {
         if (super.instance.currentDB != null) {
-            super.ExecuteQuery("SELECT * FROM " + super.instance.currentRow,QueryTypes.Select);
+            try {
+                String query = "SELECT * FROM " + super.instance.currentRow;
+                Statement statement = super.stmt;
+                return statement.executeQuery(query);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        return null;
     }
     
-    public void InsertOnTable(String Campo, String Valore)
-    {
+
+    public void InsertOnTable(PreparedStatement Query) {
         if (super.instance.currentDB != null) {
-            super.ExecuteQuery("INSERT INTO " + super.instance.currentRow + " (" + Campo + ") VALUES ('" + Valore + "')", QueryTypes.Insert);
+            super.ExecuteQuery(QueryTypes.Insert,Query);
         }
     }
 
-    public void RemoveFromTable()
-    {
-        
+    public void RemoveFromTable() {
+        // Implementa la rimozione dei dati dalla tabella
     }
-
 }

@@ -1,6 +1,9 @@
 import java.sql.*;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 public class DatabaseHandler 
 {
     public static DatabaseHandler instance = null; 
@@ -47,9 +50,10 @@ public class DatabaseHandler
             System.out.println("DB non connesso");
         }
     }
-
+    public Connection getConn() {
+        return conn;
+    }
     public void ConnectDB(int Scelta) {
-        // Close old connection
         try {
             stmt.close();
             conn.close();
@@ -84,41 +88,15 @@ public class DatabaseHandler
     }
     
 
-    public void ExecuteQuery(String Query, QueryTypes Type) {
+    public void ExecuteQuery(QueryTypes Type, PreparedStatement Statement) {
         if(Type == QueryTypes.Select)
         {
-            try {
-                ResultSet resultSet = this.stmt.executeQuery(Query);
-
-                // Ottieni il numero di colonne nel ResultSet
-                ResultSetMetaData metaData = resultSet.getMetaData();
-                int columnCount = metaData.getColumnCount();
-
-                // Itera attraverso le righe del ResultSet
-                while (resultSet.next()) {
-                    // Itera attraverso le colonne di ciascuna riga
-                    for (int i = 1; i <= columnCount; i++) {
-                        String columnName = metaData.getColumnName(i);
-                        String columnValue = resultSet.getString(i);
-                        System.out.println(columnName + ": " + columnValue);
-                    }
-                    System.out.println(); // Aggiungi una riga vuota tra le righe
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            //TODO Implement in a better way
         }
         else if (Type == QueryTypes.Insert) {
             try {
-                PreparedStatement preparedStatement = this.conn.prepareStatement(Query);
-                
-                // Esegui l'istruzione di inserimento
-                int rowsAffected = preparedStatement.executeUpdate();
-                
-                System.out.println("Numero di righe inserite: " + rowsAffected);
-                
-                // Chiudi il PreparedStatement
-                preparedStatement.close();
+                Statement.executeUpdate();
+                Statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -128,11 +106,17 @@ public class DatabaseHandler
 
     public void SelectRow(int Scelta) 
     {
-        OutputHadler.instance.ClearConsole();
+        //OutputHadler.instance.ClearConsole();
         currentRow = rowList.get(Scelta);
-        OutputHadler.instance.UpdateOutput(currentRow);
+        //OutputHadler.instance.UpdateOutput(currentRow);
     }
 
+    public String getCurrentDB() {
+        return currentDB;
+    }
+    public DatabaseMetaData getMetaData() {
+        return metaData;
+    }
     public void showTables() {
         if (currentDB != null) {
             try {
@@ -163,18 +147,27 @@ public class DatabaseHandler
         int i = 0;
         try {
             ResultSet resultSet = metaData.getCatalogs();
-
+    
             System.out.println("Elenco delle tabelle nel database:");
             while (resultSet.next()) {
                 i++;
                 String tableName = resultSet.getString("TABLE_CAT"); // 3 rappresenta la colonna del nome della tabella
-                System.out.println("["+i+"]" + " " + tableName);
+                System.out.println("[" + i + "]" + " " + tableName);
                 databaseList.put(i, tableName);
             }
-            
+    
+            // Creare e visualizzare la finestra DBListFrame
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    JFrame dbListFrame = new DBListFrame(databaseList);
+                    dbListFrame.setVisible(true);
+                }
+            });
+    
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
+    
     
 }

@@ -1,3 +1,5 @@
+package Outdated;
+/* 
 import java.util.LinkedList;
 
 import javax.xml.crypto.Data;
@@ -8,6 +10,7 @@ public class OutputHadler
     public static OutputHadler instance;
     LinkedList<String> ElencoInput = new LinkedList<>();
     LinkedList<String> ElencoOperazioni = new LinkedList<>();
+    public boolean isUsingGUI = false;
     
     private int DBSelection = 2;
 
@@ -38,6 +41,7 @@ public class OutputHadler
         System.out.flush();
     }
 
+
     public void ShowOutput()
     {
         ClearConsole();
@@ -45,12 +49,28 @@ public class OutputHadler
         {
             System.out.print(ElencoInput.get(i));
         }
+        if(!isUsingGUI)
+        {
         Scelta = InputHandler.instance.GetInput(InputType.Number);
+        }
         if(Scelta == 1)
         {
             DatabaseHandler.instance.showDBList();
             ShowTables();
         }
+        else if(Scelta == 2)
+        {
+            
+        }
+        else if(Scelta == 3)
+        {
+
+        }
+        else if(Scelta == 4)
+        {
+            System.exit(1);
+        }
+        
     }
 
     public void ShowTables()
@@ -95,3 +115,4 @@ public class OutputHadler
     }
 
 }
+*/
